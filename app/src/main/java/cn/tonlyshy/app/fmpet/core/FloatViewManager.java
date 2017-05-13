@@ -7,9 +7,11 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AbsListView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import cn.tonlyshy.app.fmpet.R;
 import cn.tonlyshy.app.fmpet.view.BubbleView;
 import cn.tonlyshy.app.fmpet.view.FloatViewGroup;
 
@@ -21,8 +23,13 @@ public class FloatViewManager {
     private Context context;
     private WindowManager windowManager;
     private FloatViewGroup floatViewGroup;
+    private BubbleView bubbleView;
+    WindowManager.LayoutParams bubbleParams;
     WindowManager.LayoutParams params;
+    private LinearLayout rightLayout;
+    private LinearLayout leftLayout;
     private View.OnTouchListener floatViewGroupTouchListener=new View.OnTouchListener() {
+
         float startx;
         float starty;
         float x;
@@ -46,17 +53,31 @@ public class FloatViewManager {
                     float dy=y-starty;
                     params.x+=dx;
                     params.y+=dy;
+                    bubbleParams.x = params.x + params.width;
+                    bubbleParams.y = params.y;
                     windowManager.updateViewLayout(floatViewGroup,params);
+                    windowManager.updateViewLayout(bubbleView, bubbleParams);
                     startx=x;
                     starty=y;
                     break;
                 case MotionEvent.ACTION_UP://贴边
                     floatViewGroup.setDragState(false);
                     float x1=event.getRawX();
+                    leftLayout = (LinearLayout) bubbleView.findViewById(R.id.left_layout);
+                    rightLayout = (LinearLayout) bubbleView.findViewById(R.id.right_layout);
+
                     if(x1>getScreenWidth()/2){
                         params.x=getScreenWidth()-floatViewGroup.width;
+                        leftLayout.setVisibility(View.VISIBLE);
+                        rightLayout.setVisibility(View.GONE);
+                        bubbleParams.x = params.x - bubbleParams.width;
+                        windowManager.updateViewLayout(bubbleView, bubbleParams);
                     }else{
                         params.x=0;
+                        leftLayout.setVisibility(View.GONE);
+                        rightLayout.setVisibility(View.VISIBLE);
+                        bubbleParams.x = params.x + params.width;
+                        windowManager.updateViewLayout(bubbleView, bubbleParams);
                     }
                     windowManager.updateViewLayout(floatViewGroup,params);
                     if(Math.abs(x0-x1)>6){//px
@@ -68,6 +89,7 @@ public class FloatViewManager {
             return false;
         }
     };
+
 
     private FloatViewManager(final Context context){
         this.context=context;
@@ -116,21 +138,31 @@ public class FloatViewManager {
     }
 
     public void showRightMessage(){
-        BubbleView bubbleView=new BubbleView(context);
+        bubbleView=new BubbleView(context);
 
         ViewGroup.LayoutParams paramsBubble=bubbleView.getLayoutParams();
-        WindowManager.LayoutParams params0;
-        params0=new WindowManager.LayoutParams();
-        params0.width=floatViewGroup.width;
-        params0.height=floatViewGroup.height;
-        params0.gravity= Gravity.TOP|Gravity.LEFT;
-        params0.x=params0.x+floatViewGroup.width;
-        params0.y=params0.y+floatViewGroup.height;
-        params0.type= WindowManager.LayoutParams.TYPE_PHONE;
-        params0.flags= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE| WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
-        params0.format= PixelFormat.RGBA_8888;
 
-        windowManager.addView(bubbleView,params0);
+        bubbleParams =new WindowManager.LayoutParams();
+        bubbleParams.width=floatViewGroup.width;
+        bubbleParams.height=floatViewGroup.height;
+        bubbleParams.gravity= Gravity.TOP|Gravity.LEFT;
+        bubbleParams.x= bubbleParams.x+floatViewGroup.width;
+        bubbleParams.y= bubbleParams.y+floatViewGroup.height;
+        bubbleParams.type= WindowManager.LayoutParams.TYPE_PHONE;
+        bubbleParams.flags= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE| WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+        bubbleParams.format= PixelFormat.RGBA_8888;
 
+        windowManager.addView(bubbleView, bubbleParams);
+
+    }
+
+    public void setBubbleViewText(String text) {
+        leftLayout = (LinearLayout) bubbleView.findViewById(R.id.left_layout);
+        rightLayout = (LinearLayout) bubbleView.findViewById(R.id.right_layout);
+        TextView rightMsg = (TextView) rightLayout.findViewById(R.id.right_msg);
+        TextView leftMsg = (TextView) leftLayout.findViewById(R.id.left_msg);
+        rightMsg.setText(text);
+        leftMsg.setText(text);
+        windowManager.updateViewLayout(bubbleView, bubbleParams);
     }
 }

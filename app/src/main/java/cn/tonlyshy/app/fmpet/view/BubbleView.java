@@ -16,6 +16,7 @@ import cn.tonlyshy.app.fmpet.R;
  */
 
 public class BubbleView extends LinearLayout {
+
     View view;
     public BubbleView(Context context) {
         super(context);
@@ -32,8 +33,8 @@ public class BubbleView extends LinearLayout {
         initialBubble();
     }
 
-    public void initialBubble(){
-        view= LayoutInflater.from(getContext()).inflate(R.layout.test,null);
+    public void initialBubble() {
+        view= LayoutInflater.from(getContext()).inflate(R.layout.right_msg,null);
         this.addView(view);
         setBackground(new ColorDrawable(Color.TRANSPARENT));
     }

@@ -6,6 +6,8 @@ import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
 import android.util.Log;
 
+import cn.tonlyshy.app.fmpet.core.FloatViewManager;
+
 import static android.content.ContentValues.TAG;
 
 /**
@@ -13,11 +15,14 @@ import static android.content.ContentValues.TAG;
  */
 
 public class NotificationMonitor extends NotificationListenerService {
+
+    private FloatViewManager manager = FloatViewManager.getInstance(this);
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);////
         Bundle extras=sbn.getNotification().extras;
         Log.d(TAG, "onNotificationPosted: "+extras.getString(Notification.EXTRA_TITLE)+extras.get(Notification.EXTRA_TEXT));
+        manager.setBubbleViewText(extras.getString(Notification.EXTRA_TITLE)+extras.get(Notification.EXTRA_TEXT));
     }
 
     @Override

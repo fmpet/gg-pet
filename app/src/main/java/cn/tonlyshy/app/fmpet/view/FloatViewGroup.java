@@ -7,14 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import cn.tonlyshy.app.fmpet.R;
 
@@ -24,11 +18,10 @@ import cn.tonlyshy.app.fmpet.R;
  */
 
 public class FloatViewGroup extends RelativeLayout {
-    public int width=500;
-    public int height=500;
+    public int width=200;
+    public int height=200;
     private boolean isDragging=false;
-    public int circleRadius=150;
-    View view;
+    public int circleRadius=100;
 
     Paint circlePaint;
     Paint textPaint;
@@ -66,8 +59,6 @@ public class FloatViewGroup extends RelativeLayout {
         textPaint.setAntiAlias(true);
         textPaint.setFakeBoldText(true);
 
-        view= LayoutInflater.from(getContext()).inflate(R.layout.test,null);
-        this.addView(view);
         setBackground(new ColorDrawable(Color.TRANSPARENT));
     }
 
