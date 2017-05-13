@@ -1,6 +1,8 @@
 package cn.tonlyshy.app.fmpet;
 
+import android.app.Notification;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -9,10 +11,18 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import java.lang.reflect.Field;
+
+import cn.tonlyshy.app.fmpet.utility.PermissionCheckerer;
+
+import static android.provider.Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS;
 
 public class MainActivity extends AppCompatActivity {
     private boolean isPermmited=false;
@@ -33,7 +43,12 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //权限申请
-        permissionCheck();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                permissionCheck();
+            }
+        }).start();
         toggleNotificationListenerService();//Prevent start avtivity the second time NotificationMonitor can not get notifications
     }
     @Override
@@ -47,18 +62,16 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-    public void permissionCheck(){
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (!Settings.canDrawOverlays(MainActivity.this)) {
-                Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
-                        Uri.parse("package:" + getPackageName()));
-                startActivityForResult(intent, 10);
-            } else {
-                isPermmited = true;
+    private boolean permissionCheck(){
+        while(PermissionCheckerer.checkFloatWindowPermission(this)!=true||PermissionCheckerer.checkNotificationListenerPermission(this)!= true){
+            if(PermissionCheckerer.checkFloatWindowPermission(this)!=true){
+                PermissionCheckerer.requestFloatWindowPermission(this);
             }
-            if (isPermmited)
-                startServicef();
+            if(PermissionCheckerer.checkNotificationListenerPermission(this)!= true){
+                PermissionCheckerer.requestNotificationListenerPermission(this);
+            }
         }
+        return true;
     }
 
     public void toggleNotificationListenerService(){
@@ -70,8 +83,17 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View v){
         switch (v.getId()){
             case R.id.btn_show:
-                permissionCheck();
-            break;
+                if(permissionCheck()){
+                    startServicef();
+                }
+                break;
+            case R.id.btn_close:
+                stopService(new Intent(this,MyFloatService.class));
+                break;
+            case R.id.btn_quit:
+                stopService(new Intent(this,MyFloatService.class));
+                finish();
+                break;
         }
     }
 

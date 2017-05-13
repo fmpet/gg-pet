@@ -155,6 +155,11 @@ public class FloatViewManager {
 
     }
 
+    public void removeView(){
+        windowManager.removeView(bubbleView);
+        windowManager.removeView(floatViewGroup);
+    }
+
     public void setBubbleViewText(String text) {
         bubbleView.setBubbleViewText(text, windowManager, bubbleParams);
     }

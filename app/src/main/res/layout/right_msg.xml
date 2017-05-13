@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:orientation="horizontal" android:layout_width="match_parent"
     android:layout_height="40dp">
 
     <LinearLayout
@@ -12,7 +12,7 @@
             android:id="@+id/left_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="left"/>
+            android:text="你好你好你好你好你好你好"/>
     </LinearLayout>
 
     <LinearLayout
@@ -24,7 +24,7 @@
             android:id="@+id/right_msg"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="right" />
+            android:text="你好你你好你好你好你好你好你好好你好你好你好" />
     </LinearLayout>
 
 

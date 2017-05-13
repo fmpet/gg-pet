@@ -22,4 +22,11 @@ public class MyFloatService extends Service {
         floatViewManager.showfloatViewGroup();
         super.onCreate();
     }
+
+    @Override
+    public void onDestroy() {
+        FloatViewManager floatViewManager=FloatViewManager.getInstance(this);
+        floatViewManager.removeView();
+        super.onDestroy();
+    }
 }
