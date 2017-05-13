@@ -16,12 +16,13 @@ import static android.content.ContentValues.TAG;
 
 public class NotificationMonitor extends NotificationListenerService {
 
-    private FloatViewManager manager = FloatViewManager.getInstance(this);
+    private FloatViewManager manager;
     @Override
     public void onNotificationPosted(StatusBarNotification sbn) {
         super.onNotificationPosted(sbn);////
         Bundle extras=sbn.getNotification().extras;
         Log.d(TAG, "onNotificationPosted: "+extras.getString(Notification.EXTRA_TITLE)+extras.get(Notification.EXTRA_TEXT));
+        manager = FloatViewManager.getInstance(this);
         manager.setBubbleViewText(extras.getString(Notification.EXTRA_TITLE)+extras.get(Notification.EXTRA_TEXT));
     }
 

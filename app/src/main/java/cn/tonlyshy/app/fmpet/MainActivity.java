@@ -1,7 +1,6 @@
 package cn.tonlyshy.app.fmpet;
 
-import android.Manifest;
-import android.annotation.TargetApi;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -10,8 +9,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -37,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         //权限申请
         permissionCheck();
+        toggleNotificationListenerService();//Prevent start avtivity the second time NotificationMonitor can not get notifications
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -61,6 +59,12 @@ public class MainActivity extends AppCompatActivity {
             if (isPermmited)
                 startServicef();
         }
+    }
+
+    public void toggleNotificationListenerService(){
+        PackageManager pm=getPackageManager();
+        pm.setComponentEnabledSetting(new ComponentName(this,cn.tonlyshy.app.fmpet.plugin.NotificationMonitor.class),PackageManager.COMPONENT_ENABLED_STATE_DISABLED,PackageManager.DONT_KILL_APP);
+        pm.setComponentEnabledSetting(new ComponentName(this,cn.tonlyshy.app.fmpet.plugin.NotificationMonitor.class),PackageManager.COMPONENT_ENABLED_STATE_ENABLED,PackageManager.DONT_KILL_APP);
     }
 
     public void onClick(View v){

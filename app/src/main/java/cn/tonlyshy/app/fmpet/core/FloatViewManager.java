@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.tonlyshy.app.fmpet.R;
@@ -157,12 +156,8 @@ public class FloatViewManager {
     }
 
     public void setBubbleViewText(String text) {
-        leftLayout = (LinearLayout) bubbleView.findViewById(R.id.left_layout);
-        rightLayout = (LinearLayout) bubbleView.findViewById(R.id.right_layout);
-        TextView rightMsg = (TextView) rightLayout.findViewById(R.id.right_msg);
-        TextView leftMsg = (TextView) leftLayout.findViewById(R.id.left_msg);
-        rightMsg.setText(text);
-        leftMsg.setText(text);
-        windowManager.updateViewLayout(bubbleView, bubbleParams);
+        bubbleView.setBubbleViewText(text, windowManager, bubbleParams);
     }
+
+
 }
