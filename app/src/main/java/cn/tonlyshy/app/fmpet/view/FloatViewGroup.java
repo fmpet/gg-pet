@@ -6,8 +6,14 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.tonlyshy.app.fmpet.R;
@@ -17,26 +23,34 @@ import cn.tonlyshy.app.fmpet.R;
  * Created by Liaowm5 on 2017/5/13.
  */
 
-public class FloatCircleView extends View {
-    public int width=150;
-    public int height=150;
+public class FloatViewGroup extends RelativeLayout {
+    public int width=500;
+    public int height=500;
     private boolean isDragging=false;
+    public int circleRadius=150;
+    View view;
 
     Paint circlePaint;
     Paint textPaint;
 
     String text="50%";
-    public FloatCircleView(Context context) {
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    public FloatViewGroup(Context context) {
         super(context);
         initPaints();
     }
 
-    public FloatCircleView(Context context, AttributeSet attrs) {
+    public FloatViewGroup(Context context, AttributeSet attrs) {
         super(context, attrs);
         initPaints();
     }
 
-    public FloatCircleView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public FloatViewGroup(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         initPaints();
     }
@@ -51,11 +65,10 @@ public class FloatCircleView extends View {
         textPaint.setColor(Color.WHITE);
         textPaint.setAntiAlias(true);
         textPaint.setFakeBoldText(true);
-    }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        view= LayoutInflater.from(getContext()).inflate(R.layout.test,null);
+        this.addView(view);
+        setBackground(new ColorDrawable(Color.TRANSPARENT));
     }
 
     @Override
@@ -65,7 +78,7 @@ public class FloatCircleView extends View {
             Bitmap bitmap=Bitmap.createScaledBitmap(src,width,height,true);
             canvas.drawBitmap(bitmap,0,0,null);
         } else {
-            canvas.drawCircle(width / 2, height / 2, width / 2, circlePaint);
+            canvas.drawCircle(width / 2, height / 2, circleRadius, circlePaint);
 
             float textWidth = textPaint.measureText(text);
             float x = width / 2 - textWidth / 2;

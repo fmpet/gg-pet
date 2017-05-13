@@ -5,10 +5,13 @@ import android.graphics.PixelFormat;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.Toast;
 
-import cn.tonlyshy.app.fmpet.view.FloatCircleView;
+import cn.tonlyshy.app.fmpet.view.BubbleView;
+import cn.tonlyshy.app.fmpet.view.FloatViewGroup;
 
 /**
  * Created by Liaowm5 on 2017/5/13.
@@ -17,9 +20,9 @@ import cn.tonlyshy.app.fmpet.view.FloatCircleView;
 public class FloatViewManager {
     private Context context;
     private WindowManager windowManager;
-    private FloatCircleView floatCircleView;
+    private FloatViewGroup floatViewGroup;
     WindowManager.LayoutParams params;
-    private View.OnTouchListener floatCircleViewTouchListener=new View.OnTouchListener() {
+    private View.OnTouchListener floatViewGroupTouchListener=new View.OnTouchListener() {
         float startx;
         float starty;
         float x;
@@ -36,26 +39,26 @@ public class FloatViewManager {
                     y0=starty;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    floatCircleView.setDragState(true);
+                    floatViewGroup.setDragState(true);
                     x=event.getRawX();
                     y=event.getRawY();
                     float dx=x-startx;
                     float dy=y-starty;
                     params.x+=dx;
                     params.y+=dy;
-                    windowManager.updateViewLayout(floatCircleView,params);
+                    windowManager.updateViewLayout(floatViewGroup,params);
                     startx=x;
                     starty=y;
                     break;
                 case MotionEvent.ACTION_UP://贴边
-                    floatCircleView.setDragState(false);
+                    floatViewGroup.setDragState(false);
                     float x1=event.getRawX();
                     if(x1>getScreenWidth()/2){
-                        params.x=getScreenWidth()-floatCircleView.width;
+                        params.x=getScreenWidth()-floatViewGroup.width;
                     }else{
                         params.x=0;
                     }
-                    windowManager.updateViewLayout(floatCircleView,params);
+                    windowManager.updateViewLayout(floatViewGroup,params);
                     if(Math.abs(x0-x1)>6){//px
                         return true;
                     }else{
@@ -69,9 +72,9 @@ public class FloatViewManager {
     private FloatViewManager(final Context context){
         this.context=context;
         windowManager=(WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
-        floatCircleView=new FloatCircleView(context);
-        floatCircleView.setOnTouchListener(floatCircleViewTouchListener);
-        floatCircleView.setOnClickListener(new View.OnClickListener() {
+        floatViewGroup=new FloatViewGroup(context);
+        floatViewGroup.setOnTouchListener(floatViewGroupTouchListener);
+        floatViewGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(context,"FloatPet",Toast.LENGTH_SHORT).show();
@@ -98,16 +101,36 @@ public class FloatViewManager {
     /*
     *  展示到window
     * */
-    public void showFloatCircleView(){
+    public void showfloatViewGroup(){
         params=new WindowManager.LayoutParams();
-        params.width=floatCircleView.width;
-        params.height=floatCircleView.height;
+        params.width=floatViewGroup.width;
+        params.height=floatViewGroup.height;
         params.gravity= Gravity.TOP|Gravity.LEFT;
         params.x=0;
         params.y=0;
         params.type= WindowManager.LayoutParams.TYPE_PHONE;
         params.flags= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE| WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
         params.format= PixelFormat.RGBA_8888;
-        windowManager.addView(floatCircleView,params);
+        windowManager.addView(floatViewGroup,params);
+        showRightMessage();
+    }
+
+    public void showRightMessage(){
+        BubbleView bubbleView=new BubbleView(context);
+
+        ViewGroup.LayoutParams paramsBubble=bubbleView.getLayoutParams();
+        WindowManager.LayoutParams params0;
+        params0=new WindowManager.LayoutParams();
+        params0.width=floatViewGroup.width;
+        params0.height=floatViewGroup.height;
+        params0.gravity= Gravity.TOP|Gravity.LEFT;
+        params0.x=params0.x+floatViewGroup.width;
+        params0.y=params0.y+floatViewGroup.height;
+        params0.type= WindowManager.LayoutParams.TYPE_PHONE;
+        params0.flags= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE| WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
+        params0.format= PixelFormat.RGBA_8888;
+
+        windowManager.addView(bubbleView,params0);
+
     }
 }

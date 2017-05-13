@@ -21,7 +21,7 @@ public class MyFloatService extends Service {
     @Override
     public void onCreate() {
         FloatViewManager floatViewManager=FloatViewManager.getInstance(this);
-        floatViewManager.showFloatCircleView();
+        floatViewManager.showfloatViewGroup();
         super.onCreate();
     }
 }
