@@ -172,7 +172,6 @@ public class RomUtils {
                 || RomUtils.isOppoRom()
                 || RomUtils.isVivoRom()
                 || RomUtils.isLetvRom()
-                || RomUtils.isZTERom()
                 || RomUtils.isLenovoRom()
                 || RomUtils.isCoolPadRom();
     }

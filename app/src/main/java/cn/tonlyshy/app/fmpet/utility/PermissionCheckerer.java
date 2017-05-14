@@ -69,9 +69,6 @@ public class PermissionCheckerer {
             else if(RomUtils.isVivoRom()){
                 RomUtils.applyVivoPermission(context);
             }
-            else if(RomUtils.isZTERom()){
-                RomUtils.applyZTEPermission(context);
-            }
             else if(RomUtils.checkIs360Rom()){
                 RomUtils.apply360Permission(context);
             }
