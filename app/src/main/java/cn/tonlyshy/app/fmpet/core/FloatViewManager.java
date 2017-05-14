@@ -5,7 +5,6 @@ import android.graphics.PixelFormat;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.Toast;
@@ -53,7 +52,7 @@ public class FloatViewManager {
                     params.x+=dx;
                     params.y+=dy;
                     bubbleParams.x = params.x + params.width;
-                    bubbleParams.y = params.y;
+                    bubbleParams.y = params.y - params.height;
                     windowManager.updateViewLayout(floatViewGroup,params);
                     windowManager.updateViewLayout(bubbleView, bubbleParams);
                     startx=x;
@@ -138,15 +137,12 @@ public class FloatViewManager {
 
     public void showRightMessage(){
         bubbleView=new BubbleView(context);
-
-        ViewGroup.LayoutParams paramsBubble=bubbleView.getLayoutParams();
-
         bubbleParams =new WindowManager.LayoutParams();
-        bubbleParams.width=floatViewGroup.width;
-        bubbleParams.height=floatViewGroup.height;
+        bubbleParams.width=bubbleView.width;
+        bubbleParams.height=bubbleView.height;
         bubbleParams.gravity= Gravity.TOP|Gravity.LEFT;
         bubbleParams.x= bubbleParams.x+floatViewGroup.width;
-        bubbleParams.y= bubbleParams.y+floatViewGroup.height;
+        bubbleParams.y= floatViewGroup.height;
         bubbleParams.type= WindowManager.LayoutParams.TYPE_PHONE;
         bubbleParams.flags= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE| WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
         bubbleParams.format= PixelFormat.RGBA_8888;
@@ -162,6 +158,12 @@ public class FloatViewManager {
 
     public void setBubbleViewText(String text) {
         bubbleView.setBubbleViewText(text, windowManager, bubbleParams);
+        float scale = context.getResources().getDisplayMetrics().density;
+        float wordSize = scale * 14 + 0.5f;
+        bubbleView.width = (int) wordSize * (text.length() + 2);
+        bubbleParams.width = bubbleView.width > (windowManager.getDefaultDisplay().getWidth() - wordSize * 4) ?
+                (int) (windowManager.getDefaultDisplay().getWidth() - wordSize * 4) : bubbleView.width;
+        windowManager.updateViewLayout(bubbleView, bubbleParams);
     }
 
 

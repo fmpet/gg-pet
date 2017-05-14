@@ -19,6 +19,9 @@ import cn.tonlyshy.app.fmpet.R;
 
 public class BubbleView extends LinearLayout {
 
+    public int width = 400;
+    public int height = 200;
+
     View view;
 
     private LinearLayout rightLayout;

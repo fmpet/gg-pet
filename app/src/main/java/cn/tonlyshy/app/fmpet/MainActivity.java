@@ -1,28 +1,19 @@
 package cn.tonlyshy.app.fmpet;
 
-import android.app.Notification;
 import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v4.content.PermissionChecker;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
-
-import java.lang.reflect.Field;
 
 import cn.tonlyshy.app.fmpet.utility.PermissionCheckerer;
-
-import static android.provider.Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS;
 
 public class MainActivity extends AppCompatActivity {
     private boolean isPermmited=false;
@@ -63,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     private boolean permissionCheck(){
-        while(PermissionCheckerer.checkFloatWindowPermission(this)!=true||PermissionCheckerer.checkNotificationListenerPermission(this)!= true){
+        if (PermissionCheckerer.checkFloatWindowPermission(this)!=true||PermissionCheckerer.checkNotificationListenerPermission(this)!= true){
             if(PermissionCheckerer.checkFloatWindowPermission(this)!=true){
                 PermissionCheckerer.requestFloatWindowPermission(this);
             }
