@@ -44,6 +44,10 @@ public class BubbleView extends LinearLayout {
 
     public void initialBubble() {
         view= LayoutInflater.from(getContext()).inflate(R.layout.right_msg,null);
+        leftLayout = (LinearLayout) view.findViewById(R.id.left_layout);
+        rightLayout = (LinearLayout) view.findViewById(R.id.right_layout);
+        leftLayout.setVisibility(View.GONE);
+        rightLayout.setVisibility(View.VISIBLE);
         this.addView(view);
         setBackground(new ColorDrawable(Color.TRANSPARENT));
     }
