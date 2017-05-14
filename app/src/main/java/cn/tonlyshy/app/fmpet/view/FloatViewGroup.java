@@ -64,8 +64,8 @@ public class FloatViewGroup extends RelativeLayout {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        if(isDragging){
-            Bitmap src= BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher );
+        if(!isDragging){
+            Bitmap src= BitmapFactory.decodeResource(getResources(), R.drawable.happyfaceleft );
             Bitmap bitmap=Bitmap.createScaledBitmap(src,width,height,true);
             canvas.drawBitmap(bitmap,0,0,null);
         } else {
