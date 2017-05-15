@@ -6,9 +6,15 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.tonlyshy.app.fmpet.R;
 
@@ -48,6 +54,9 @@ public class FloatViewGroup extends RelativeLayout {
         initPaints();
     }
 
+    private AnimationDrawable animationDrawable;
+    private ArrayList<Integer> animationList=new ArrayList<>();
+
     private void initPaints() {
         circlePaint=new Paint();
         circlePaint.setColor(Color.GRAY);
@@ -59,9 +68,15 @@ public class FloatViewGroup extends RelativeLayout {
         textPaint.setAntiAlias(true);
         textPaint.setFakeBoldText(true);
 
-        setBackground(new ColorDrawable(Color.TRANSPARENT));
+        animationList.add(R.drawable.animation_list_1);
+        animationList.add(R.drawable.animation_list_2);
+
+        //setBackground(new ColorDrawable(Color.TRANSPARENT));
+        setBackgroundResource(R.drawable.animation_list_1);
+        animationDrawable=(AnimationDrawable) getBackground();
     }
 
+    /*
     @Override
     protected void onDraw(Canvas canvas) {
         if(!isDragging){
@@ -79,10 +94,20 @@ public class FloatViewGroup extends RelativeLayout {
             float y = height / 2 + dy;
             canvas.drawText(text, x, y, textPaint);
         }
+    }*/
+    public void switchAnimation(int index){
+        animationDrawable.stop();
+        setBackgroundResource(animationList.get(index));
+        animationDrawable=(AnimationDrawable)getBackground();
+        animationDrawable.start();
     }
 
     public void setDragState(boolean flag){
         isDragging=flag;
         invalidate();
+    }
+
+    public void startAnime(){
+        animationDrawable.start();
     }
 }

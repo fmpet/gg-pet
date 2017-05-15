@@ -1,13 +1,18 @@
 package cn.tonlyshy.app.fmpet.view;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.support.annotation.Nullable;
+import android.system.ErrnoException;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -52,7 +57,7 @@ public class BubbleView extends LinearLayout {
         setBackground(new ColorDrawable(Color.TRANSPARENT));
     }
 
-    public void setBubbleViewText(final String text, WindowManager windowManager, WindowManager.LayoutParams bubbleParams) {
+    public void setBubbleViewText(final String text, WindowManager windowManager, WindowManager.LayoutParams bubbleParams, final Bitmap bitmap) {
         leftLayout = (LinearLayout) findViewById(R.id.left_layout);
         rightLayout = (LinearLayout) findViewById(R.id.right_layout);
 
@@ -63,6 +68,9 @@ public class BubbleView extends LinearLayout {
 //                Looper.prepare();
                 TextView leftMsg = (TextView) leftLayout.findViewById(R.id.left_msg);
                 leftMsg.setText(text);
+
+                ImageView leftImage=(ImageView)leftLayout.findViewById(R.id.left_msg_icon);
+                leftImage.setBackground(new BitmapDrawable(bitmap));
             }
         });
 
@@ -72,9 +80,51 @@ public class BubbleView extends LinearLayout {
 //                Looper.prepare();
                 TextView rightMsg = (TextView) rightLayout.findViewById(R.id.right_msg);
                 rightMsg.setText(text);
+                ImageView leftImage=(ImageView)rightLayout.findViewById(R.id.right_msg_icon);
+                leftImage.setBackground(new BitmapDrawable(bitmap));
             }
         });
 
 //        windowManager.updateViewLayout(this, bubbleParams);
+    }
+
+    public void setVisible(){
+        post(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    setVisibility(View.VISIBLE);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+    public void setInvisible(){
+        post(new Runnable() {
+            @Override
+            public void run() {
+                setVisibility(View.GONE);
+            }
+        });
+    }
+
+    public void setInvisibleDelayed(final long timeMillis){
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(timeMillis);
+                    post(new Runnable() {
+                        @Override
+                        public void run() {
+                            setVisibility(View.GONE);
+                        }
+                    });
+                }catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
     }
 }

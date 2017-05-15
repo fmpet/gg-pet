@@ -1,7 +1,9 @@
 package cn.tonlyshy.app.fmpet.core;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,6 +14,8 @@ import android.widget.Toast;
 import cn.tonlyshy.app.fmpet.R;
 import cn.tonlyshy.app.fmpet.view.BubbleView;
 import cn.tonlyshy.app.fmpet.view.FloatViewGroup;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by Liaowm5 on 2017/5/13.
@@ -89,6 +93,8 @@ public class FloatViewManager {
     };
 
 
+    private int index=0;
+
     private FloatViewManager(final Context context){
         this.context=context;
         windowManager=(WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
@@ -97,6 +103,12 @@ public class FloatViewManager {
         floatViewGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                index++;
+                if(index>1){
+                    index=0;
+                }
+                floatViewGroup.switchAnimation(index);
+                Log.d(TAG, "onClick: index="+index);
                 Toast.makeText(context,"FloatPet",Toast.LENGTH_SHORT).show();
             }
         });
@@ -132,8 +144,11 @@ public class FloatViewManager {
         params.flags= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE| WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
         params.format= PixelFormat.RGBA_8888;
         windowManager.addView(floatViewGroup,params);
+
+        floatViewGroup.startAnime();
         showRightMessage();
     }
+
 
     public void showRightMessage(){
         bubbleView=new BubbleView(context);
@@ -146,9 +161,8 @@ public class FloatViewManager {
         bubbleParams.type= WindowManager.LayoutParams.TYPE_PHONE;
         bubbleParams.flags= WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE| WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
         bubbleParams.format= PixelFormat.RGBA_8888;
-
+        bubbleView.setInvisible();
         windowManager.addView(bubbleView, bubbleParams);
-
     }
 
     public void removeView() {
@@ -156,26 +170,17 @@ public class FloatViewManager {
         windowManager.removeView(floatViewGroup);
     }
 
-    public void showBubbleViewText(String text){
-        setBubbleViewText(text);
-//        bubbleView.setVisibility(View.VISIBLE);
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                catch
-//                Thread.sleep(Toast.LENGTH_SHORT);
-//            }
-//        }).start();
-    }
-
-    public void setBubbleViewText(String text) {
-        bubbleView.setBubbleViewText(text, windowManager, bubbleParams);
+    public void setBubbleViewText(String text, Object icon) {
+        bubbleView.setVisible();
+        Bitmap bitmap=(Bitmap)icon;
+        bubbleView.setBubbleViewText(text, windowManager, bubbleParams,bitmap);
         float scale = context.getResources().getDisplayMetrics().density;
         float wordSize = scale * 14 + 0.5f;
         bubbleView.width = (int) wordSize * (text.length() + 2);
         bubbleParams.width = bubbleView.width > (windowManager.getDefaultDisplay().getWidth() - wordSize * 4) ?
                 (int) (windowManager.getDefaultDisplay().getWidth() - wordSize * 4) : bubbleView.width;
         windowManager.updateViewLayout(bubbleView, bubbleParams);
+        bubbleView.setInvisibleDelayed(5000);
     }
 
 
