@@ -73,6 +73,7 @@ public class FloatViewGroup extends RelativeLayout {
         animationList.add(R.drawable.animation_list_2);
         animationList.add(R.drawable.a2_animation_list_all);
         animationList.add(R.drawable.a4_animation_list_all);
+        animationList.add(R.drawable.a1_animation_list_walk);
 
         //setBackground(new ColorDrawable(Color.TRANSPARENT));
         setBackgroundResource(R.drawable.animation_list_1);

@@ -2,13 +2,13 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android"
     android:oneshot="false">
     <item
-        android:drawable="@drawable/frame1_happyfaceleft"
+        android:drawable="@drawable/happyfaceleft2"
         android:duration="500"/>
     <item
-        android:drawable="@drawable/frame1_sillyfaceleft"
+        android:drawable="@drawable/sillyfaceleft"
         android:duration="500"/>
     <item
-        android:drawable="@drawable/frame1_jiongfaceleft"
+        android:drawable="@drawable/jiongfaceleft"
         android:duration="1000"/>
     <!--
     <item
