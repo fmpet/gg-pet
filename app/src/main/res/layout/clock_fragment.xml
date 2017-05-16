@@ -1,42 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <DatePicker
-        android:id="@+id/datePicker"
+    <TabHost
+        android:id="@+id/tab_host"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="1.00"
-        android:datePickerMode="calendar" />
+        android:layout_weight="1.00">
 
-    <TimePicker
-        android:id="@+id/timePicker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_above="@+id/btn_confirm_time"
-        android:layout_weight="1.00"
-        android:timePickerMode="spinner" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TabWidget
+                android:id="@android:id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <FrameLayout
+                android:id="@android:id/tabcontent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <LinearLayout
+                    android:id="@+id/tab1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <DatePicker
+                        android:id="@+id/datePicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1.00"
+                        android:datePickerMode="calendar"
+                        android:yearListSelectorColor="#d30000"
+                        android:headerBackground="#d30000" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/tab2"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TimePicker
+                        android:id="@+id/timePicker"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_above="@+id/btn_confirm_time"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1.00"
+                        android:numbersSelectorColor="#d30000"
+                        android:headerBackground="#d30000"/>
+                </LinearLayout>
+
+            </FrameLayout>
+        </LinearLayout>
+    </TabHost>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="right"
         android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_confirm_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:background="@android:color/transparent"
-            android:text="确定"
-            android:textColor="#ff5fb4"
-            android:textSize="20sp" />
 
         <Button
             android:id="@+id/btn_cancel_time"
@@ -44,8 +76,20 @@
             android:layout_height="wrap_content"
             android:background="@android:color/transparent"
             android:text="取消"
-            android:textColor="#ff5fb4"
+            android:textColor="#d30000"
+            android:textSize="20sp"
+            />
+
+        <Button
+            android:id="@+id/btn_confirm_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:background="@android:color/transparent"
+            android:text="保存"
+            android:textColor="#d30000"
             android:textSize="20sp" />
+
     </LinearLayout>
 
 

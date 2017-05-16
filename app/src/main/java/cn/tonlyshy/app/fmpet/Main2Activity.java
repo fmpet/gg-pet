@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
@@ -110,7 +111,14 @@ public class Main2Activity extends AppCompatActivity
         } else if (id == R.id.nav_model_select) {
 
         } else if (id == R.id.nav_clock) {
-            fragment=new ClockFragment();
+            //fragment=new ClockFragment();
+            DialogFragment fragment1 = new ClockFragment();
+            try {
+                fragment1.show(getSupportFragmentManager(), "tag");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
         } else if (id == R.id.nav_setting) {
 
         } else if (id == R.id.nav_share) {
@@ -122,8 +130,8 @@ public class Main2Activity extends AppCompatActivity
             finish();
         }
 
-        FragmentManager fragmentManager=getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+//        FragmentManager fragmentManager=getSupportFragmentManager();
+//        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
