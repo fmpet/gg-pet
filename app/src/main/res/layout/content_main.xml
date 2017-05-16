@@ -30,4 +30,5 @@
         android:layout_height="wrap_content"
         android:text="退出"
         android:onClick="onClick"/>
+
 </LinearLayout>

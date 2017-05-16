@@ -3,13 +3,13 @@
     android:oneshot="false">
     <item
         android:drawable="@drawable/frame1_happyfaceleft"
-        android:duration="200"/>
-    <item
-        android:drawable="@drawable/frame1_jiongfaceleft"
-        android:duration="200"/>
+        android:duration="500"/>
     <item
         android:drawable="@drawable/frame1_sillyfaceleft"
-        android:duration="200"/>
+        android:duration="500"/>
+    <item
+        android:drawable="@drawable/frame1_jiongfaceleft"
+        android:duration="1000"/>
     <!--
     <item
         android:drawable="@drawable/frame1_jiongfaceright"
