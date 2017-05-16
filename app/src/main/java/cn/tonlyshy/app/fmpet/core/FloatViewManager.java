@@ -104,7 +104,7 @@ public class FloatViewManager {
             @Override
             public void onClick(View v) {
                 index++;
-                if(index>1){
+                if(index>=floatViewGroup.animationList.size()){
                     index=0;
                 }
                 floatViewGroup.switchAnimation(index);

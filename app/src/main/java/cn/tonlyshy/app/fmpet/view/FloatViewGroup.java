@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
@@ -55,7 +56,7 @@ public class FloatViewGroup extends RelativeLayout {
     }
 
     private AnimationDrawable animationDrawable;
-    private ArrayList<Integer> animationList=new ArrayList<>();
+    public ArrayList<Integer> animationList=new ArrayList<>();
 
     private void initPaints() {
         circlePaint=new Paint();
@@ -70,19 +71,25 @@ public class FloatViewGroup extends RelativeLayout {
 
         animationList.add(R.drawable.animation_list_1);
         animationList.add(R.drawable.animation_list_2);
+        animationList.add(R.drawable.a2_animation_list_all);
+        animationList.add(R.drawable.a4_animation_list_all);
 
         //setBackground(new ColorDrawable(Color.TRANSPARENT));
         setBackgroundResource(R.drawable.animation_list_1);
         animationDrawable=(AnimationDrawable) getBackground();
+        paint.setAntiAlias(false);
+        paint.setDither(true);
+        paint.setFilterBitmap(false);
     }
-
-    /*
+    Paint paint=new Paint();
+/*
     @Override
     protected void onDraw(Canvas canvas) {
         if(!isDragging){
-            Bitmap src= BitmapFactory.decodeResource(getResources(), R.drawable.happyfaceleft );
-            Bitmap bitmap=Bitmap.createScaledBitmap(src,width,height,true);
-            canvas.drawBitmap(bitmap,0,0,null);
+            Bitmap src= BitmapFactory.decodeResource(getResources(), R.drawable.kanna_body );
+            canvas.scale(6, 6);
+            canvas.drawBitmap(src,0,0,paint);
+            super.onDraw(canvas);
         } else {
             canvas.drawCircle(width / 2, height / 2, circleRadius, circlePaint);
 
