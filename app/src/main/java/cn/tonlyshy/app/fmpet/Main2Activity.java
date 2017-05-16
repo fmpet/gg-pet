@@ -18,8 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
+import cn.tonlyshy.app.fmpet.fragment.AboutUsFragment;
 import cn.tonlyshy.app.fmpet.fragment.ClockFragment;
 import cn.tonlyshy.app.fmpet.fragment.MainFragment;
 import cn.tonlyshy.app.fmpet.utility.PermissionCheckerer;
@@ -60,6 +60,7 @@ public class Main2Activity extends AppCompatActivity
             }
         }).start();
         toggleNotificationListenerService();//Prevent start avtivity the second time NotificationMonitor can not get notifications
+        permissionCheck();
         FragmentManager fragmentManager=getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
     }
@@ -108,6 +109,8 @@ public class Main2Activity extends AppCompatActivity
         if (id == R.id.nav_main_page) {
             // Handle the camera action
             fragment=new MainFragment();
+            FragmentManager fragmentManager=getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         } else if (id == R.id.nav_model_select) {
 
         } else if (id == R.id.nav_clock) {
@@ -120,18 +123,20 @@ public class Main2Activity extends AppCompatActivity
             }
 
         } else if (id == R.id.nav_setting) {
-
+            Intent intent=new Intent(this,SettingsActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_about) {
-
+            fragment = new AboutUsFragment();
+            FragmentManager fragmentManager=getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         }else if(id==R.id.nav_exit){
             stopService(new Intent(this,MyFloatService.class));
             finish();
         }
 
-//        FragmentManager fragmentManager=getSupportFragmentManager();
-//        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -167,26 +172,5 @@ public class Main2Activity extends AppCompatActivity
         pm.setComponentEnabledSetting(new ComponentName(this,cn.tonlyshy.app.fmpet.plugin.NotificationMonitor.class),PackageManager.COMPONENT_ENABLED_STATE_ENABLED,PackageManager.DONT_KILL_APP);
     }
 
-    public void onClick(View v){
-        switch (v.getId()){
-            case R.id.btn_show:
-                toggleNotificationListenerService();
-                if(permissionCheck()){
-                    startServicef();
-                }
-                break;
-            case R.id.btn_close:
-                stopService(new Intent(this,MyFloatService.class));
-                break;
-            case R.id.btn_quit:
-                stopService(new Intent(this,MyFloatService.class));
-                finish();
-                break;
-        }
-    }
 
-    public void startServicef(){
-        Intent intent=new Intent(this,MyFloatService.class);
-        startService(intent);
-    }
 }

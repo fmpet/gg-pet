@@ -11,6 +11,8 @@ import cn.tonlyshy.app.fmpet.core.FloatViewManager;
  */
 
 public class MyFloatService extends Service {
+
+    FloatViewManager floatViewManager;
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -18,7 +20,7 @@ public class MyFloatService extends Service {
 
     @Override
     public void onCreate() {
-        FloatViewManager floatViewManager=FloatViewManager.getInstance(this);
+        floatViewManager=FloatViewManager.getInstance(this);
         floatViewManager.showfloatViewGroup();
         super.onCreate();
     }
@@ -29,4 +31,5 @@ public class MyFloatService extends Service {
         floatViewManager.removeView();
         super.onDestroy();
     }
+
 }

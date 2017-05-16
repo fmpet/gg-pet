@@ -30,6 +30,7 @@ public class FloatViewManager {
     WindowManager.LayoutParams params;
     private LinearLayout rightLayout;
     private LinearLayout leftLayout;
+    private boolean ready=false;
     private View.OnTouchListener floatViewGroupTouchListener=new View.OnTouchListener() {
 
         float startx;
@@ -112,6 +113,7 @@ public class FloatViewManager {
                 Toast.makeText(context,"FloatPet",Toast.LENGTH_SHORT).show();
             }
         });
+        ready=false;
     }
     private static FloatViewManager instance;
 
@@ -147,6 +149,7 @@ public class FloatViewManager {
 
         floatViewGroup.startAnime();
         showRightMessage();
+        ready=true;
     }
 
 
@@ -163,6 +166,7 @@ public class FloatViewManager {
         bubbleParams.format= PixelFormat.RGBA_8888;
         bubbleView.setInvisible();
         windowManager.addView(bubbleView, bubbleParams);
+        setBubbleViewText("Hi, Master!", null);
     }
 
     public void removeView() {
@@ -180,8 +184,14 @@ public class FloatViewManager {
         bubbleParams.width = bubbleView.width > (windowManager.getDefaultDisplay().getWidth() - wordSize * 4) ?
                 (int) (windowManager.getDefaultDisplay().getWidth() - wordSize * 4) : bubbleView.width;
         windowManager.updateViewLayout(bubbleView, bubbleParams);
-        bubbleView.setInvisibleDelayed(5000);
+        bubbleView.setInvisibleDelayed(3000);
     }
+
+    public boolean isReady() {
+        return ready&&bubbleView!=null&&bubbleView.isShown();
+    }
+
+
 
 
 }

@@ -4,6 +4,8 @@ import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.service.notification.NotificationListenerService;
 import android.service.notification.StatusBarNotification;
@@ -11,6 +13,8 @@ import android.util.Log;
 
 import java.util.Calendar;
 
+import cn.tonlyshy.app.fmpet.MyFloatService;
+import cn.tonlyshy.app.fmpet.R;
 import cn.tonlyshy.app.fmpet.core.FloatViewManager;
 import cn.tonlyshy.app.fmpet.utility.VibratorUtil;
 
@@ -58,6 +62,14 @@ public class NotificationMonitor extends NotificationListenerService {
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 Intent intent1 = new Intent(this, NotificationMonitor.class);
                 intent1.setAction(ACTION_ALARM_TRIGGER);
+                String ttmp = "";
+                try {
+                     ttmp = intent.getStringExtra("alarm_content").toString();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Log.d("TAG","ttmp="+ ttmp);
+                intent1.putExtra("alarm_content", ttmp);
                 PendingIntent pendingIntent = PendingIntent.getService(this, 0, intent1, 0);
                 Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.YEAR, intent.getIntExtra("year", 0));
@@ -72,6 +84,28 @@ public class NotificationMonitor extends NotificationListenerService {
             }
             else if (intent.getAction().equals(ACTION_ALARM_TRIGGER)) {
                 Log.d("Vibrate", "succeeded");
+                final String tmp = intent.getStringExtra("alarm_content").toString();
+                Intent intentN=new Intent(this, MyFloatService.class);
+                startService(intentN);
+                manager = FloatViewManager.getInstance(getApplicationContext());
+                Log.d("TAG", tmp);
+                final Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.topic);
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            while (! manager.isReady()) {
+
+                            }
+                            manager.setBubbleViewText("您有新的提醒：" + tmp, bitmap);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
+                    }
+                }).start();
+                Log.d("TAG", "GGGGG2");
                 VibratorUtil.Vibrate(this, new long[] {1000, 1000, 1000, 1000}, false);
             }
         }

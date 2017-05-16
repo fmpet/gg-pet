@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.TabHost;
 import android.widget.TimePicker;
 
@@ -27,6 +28,7 @@ public class ClockFragment extends DialogFragment implements View.OnClickListene
     private Button btnCancel;
     private TimePicker timePicker;
     private DatePicker datePicker;
+    private EditText editText;
     private int selectedHour;
     private int selectedMinute;
     private TabHost tabHost;
@@ -40,6 +42,7 @@ public class ClockFragment extends DialogFragment implements View.OnClickListene
         timePicker = (TimePicker) view.findViewById(R.id.timePicker);
         datePicker = (DatePicker) view.findViewById(R.id.datePicker);
         tabHost = (TabHost) view.findViewById(R.id.tab_host);
+        editText = (EditText) view.findViewById(R.id.alarm_content);
         btnConfirm.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
 
@@ -79,6 +82,8 @@ public class ClockFragment extends DialogFragment implements View.OnClickListene
                 intent.putExtra("day", datePicker.getDayOfMonth());
                 intent.putExtra("month", datePicker.getMonth());
                 intent.putExtra("year", datePicker.getYear());
+                intent.putExtra("alarm_content", editText.getText().toString());
+                Log.d("EditText", editText.getText() + "");
                 getActivity().startService(intent);
                 break;
             case R.id.btn_cancel_time:

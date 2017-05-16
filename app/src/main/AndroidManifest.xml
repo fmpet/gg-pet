@@ -48,6 +48,15 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".MyFloatService$NotificationReceiver"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="cn.tonlyshy.app.fmpet.core.FloatViewManager.NotificationReceiver.NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
+
     </application>
 
 </manifest>
