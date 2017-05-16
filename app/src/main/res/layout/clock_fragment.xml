@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <TimePicker
+        android:id="@+id/timePicker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1.00" />
+
+
+
+    <Button
+        android:id="@+id/btn_confirm_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="确定"
+        android:textColor="#ff5fb4"
+        android:textSize="20sp"
+        android:background="@android:color/transparent"/>
+
+    <Button
+        android:id="@+id/btn_cancel_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/btn_confirm_time"
+        android:layout_alignParentBottom="true"
+        android:text="取消"
+        android:textColor="#ff5fb4"
+        android:textSize="20sp"
+        android:background="@android:color/transparent"/>
+</RelativeLayout>
