@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -27,6 +28,7 @@
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />
+                <action android:name="cn.tonlyshy.app.fmpet.plugin.NotificationMonitor" />
             </intent-filter>
         </service>
         <service
