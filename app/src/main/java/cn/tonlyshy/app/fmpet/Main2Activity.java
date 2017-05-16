@@ -6,9 +6,9 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -19,6 +19,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import cn.tonlyshy.app.fmpet.fragment.ClockFragment;
+import cn.tonlyshy.app.fmpet.fragment.MainFragment;
 import cn.tonlyshy.app.fmpet.utility.PermissionCheckerer;
 
 public class Main2Activity extends AppCompatActivity
@@ -31,6 +33,7 @@ public class Main2Activity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        /*
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -38,7 +41,7 @@ public class Main2Activity extends AppCompatActivity
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -56,6 +59,8 @@ public class Main2Activity extends AppCompatActivity
             }
         }).start();
         toggleNotificationListenerService();//Prevent start avtivity the second time NotificationMonitor can not get notifications
+        FragmentManager fragmentManager=getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
     }
 
     @Override
@@ -84,6 +89,8 @@ public class Main2Activity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent=new Intent(this,SettingsActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -96,19 +103,27 @@ public class Main2Activity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        Fragment fragment = new Fragment();
         if (id == R.id.nav_main_page) {
             // Handle the camera action
+            fragment=new MainFragment();
         } else if (id == R.id.nav_model_select) {
 
         } else if (id == R.id.nav_clock) {
-
+            fragment=new ClockFragment();
         } else if (id == R.id.nav_setting) {
 
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_about) {
 
+        }else if(id==R.id.nav_exit){
+            stopService(new Intent(this,MyFloatService.class));
+            finish();
         }
+
+        FragmentManager fragmentManager=getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

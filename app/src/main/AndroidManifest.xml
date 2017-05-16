@@ -7,7 +7,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/sadfaceleft2"
+        android:icon="@drawable/app_icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -31,8 +31,11 @@
         </service>
         <service
             android:name=".MyFloatService"
-            android:permission="android.permission.SYSTEM_ALERT_WINDOW"></service>
+            android:permission="android.permission.SYSTEM_ALERT_WINDOW" />
 
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"></activity>
     </application>
 
 </manifest>
