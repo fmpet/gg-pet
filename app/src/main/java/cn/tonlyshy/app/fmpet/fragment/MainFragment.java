@@ -9,9 +9,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import cn.tonlyshy.app.fmpet.MyFloatService;
 import cn.tonlyshy.app.fmpet.R;
+import cn.tonlyshy.app.fmpet.core.FloatViewManager;
 
 /**
  * Created by Liaowm5 on 2017/5/16.
@@ -23,6 +25,10 @@ public class MainFragment extends Fragment implements CompoundButton.OnCheckedCh
         View view = inflater.inflate(R.layout.content_main, container, false);
         Switch switchShow = (Switch) view.findViewById(R.id.switch_show);
         switchShow.setOnCheckedChangeListener(this);
+        TextView txv=(TextView)view.findViewById(R.id.pet_name_textview);
+        FloatViewManager floatViewManager=FloatViewManager.getInstance(getActivity());
+        String petName=floatViewManager.getPetName();
+        txv.setText(petName);
         return view;
     }
 

@@ -1,21 +1,13 @@
 package cn.tonlyshy.app.fmpet.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.PixelFormat;
 import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
 
 import cn.tonlyshy.app.fmpet.R;
 
@@ -57,6 +49,7 @@ public class FloatViewGroup extends RelativeLayout {
 
     private AnimationDrawable animationDrawable;
     public ArrayList<Integer> animationList=new ArrayList<>();
+    public ArrayList<Integer> walkAnimationList=new ArrayList<>();
 
     private void initPaints() {
         circlePaint=new Paint();
@@ -69,45 +62,53 @@ public class FloatViewGroup extends RelativeLayout {
         textPaint.setAntiAlias(true);
         textPaint.setFakeBoldText(true);
 
-        animationList.add(R.drawable.animation_list_1);
         animationList.add(R.drawable.animation_list_2);
-        animationList.add(R.drawable.a2_animation_list_all);
-        animationList.add(R.drawable.a4_animation_list_all);
-        animationList.add(R.drawable.a1_animation_list_walk);
+        walkAnimationList.add(R.drawable.a1_animation_list_walk);
 
         //setBackground(new ColorDrawable(Color.TRANSPARENT));
-        setBackgroundResource(R.drawable.animation_list_1);
+        setBackgroundResource(R.drawable.animation_list_2);
         animationDrawable=(AnimationDrawable) getBackground();
         paint.setAntiAlias(false);
         paint.setDither(true);
         paint.setFilterBitmap(false);
     }
     Paint paint=new Paint();
+
 /*
+    int xx=0;
+    int yy=0;
     @Override
     protected void onDraw(Canvas canvas) {
         if(!isDragging){
-            Bitmap src= BitmapFactory.decodeResource(getResources(), R.drawable.kanna_body );
-            canvas.scale(6, 6);
-            canvas.drawBitmap(src,0,0,paint);
-            super.onDraw(canvas);
+            //Bitmap src= BitmapFactory.decodeResource(getResources(), R.drawable.kanna_body );
+            //canvas.scale(6, 6);
+            //canvas.drawBitmap(src,0,0,paint);
+            //super.onDraw(canvas);
         } else {
             canvas.drawCircle(width / 2, height / 2, circleRadius, circlePaint);
 
             float textWidth = textPaint.measureText(text);
-            float x = width / 2 - textWidth / 2;
+            //float x = width / 2 - textWidth / 2;
 
             Paint.FontMetrics metrics = textPaint.getFontMetrics();
             float dy = -(metrics.descent + metrics.ascent) / 2;
-            float y = height / 2 + dy;
-            canvas.drawText(text, x, y, textPaint);
+            //float y = height / 2 + dy;
+            canvas.drawText(text, ++xx, ++yy, textPaint);
+            //setX(xx);
+            //setY(yy);
+            //scrollTo(xx,yy);
         }
-    }*/
+    }
+   */
     public void switchAnimation(int index){
         animationDrawable.stop();
         setBackgroundResource(animationList.get(index));
         animationDrawable=(AnimationDrawable)getBackground();
         animationDrawable.start();
+    }
+
+    public void stopAnimation(){
+        animationDrawable.stop();
     }
 
     public void setDragState(boolean flag){
@@ -118,4 +119,18 @@ public class FloatViewGroup extends RelativeLayout {
     public void startAnime(){
         animationDrawable.start();
     }
+
+    public void startWalkAnimation() {
+        animationDrawable.stop();
+        setBackgroundResource(R.drawable.a1_animation_list_walk);
+        animationDrawable=(AnimationDrawable)getBackground();
+        animationDrawable.start();
+    }
+    public void stopWalkAnimation() {
+        animationDrawable.stop();
+        setBackgroundResource(R.drawable.animation_list_2);
+        animationDrawable=(AnimationDrawable)getBackground();
+        animationDrawable.start();
+    }
+
 }

@@ -1,8 +1,10 @@
 package cn.tonlyshy.app.fmpet.core;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
+import android.os.Handler;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -16,6 +18,7 @@ import cn.tonlyshy.app.fmpet.view.BubbleView;
 import cn.tonlyshy.app.fmpet.view.FloatViewGroup;
 
 import static android.content.ContentValues.TAG;
+import static android.content.Context.MODE_PRIVATE;
 
 /**
  * Created by Liaowm5 on 2017/5/13.
@@ -31,6 +34,9 @@ public class FloatViewManager {
     private LinearLayout rightLayout;
     private LinearLayout leftLayout;
     private boolean ready=false;
+
+    private String petName="滑鸡";
+
     private View.OnTouchListener floatViewGroupTouchListener=new View.OnTouchListener() {
 
         float startx;
@@ -150,6 +156,8 @@ public class FloatViewManager {
         floatViewGroup.startAnime();
         showRightMessage();
         ready=true;
+        leftLayout = (LinearLayout) bubbleView.findViewById(R.id.left_layout);
+        rightLayout = (LinearLayout) bubbleView.findViewById(R.id.right_layout);
     }
 
 
@@ -185,13 +193,84 @@ public class FloatViewManager {
                 (int) (windowManager.getDefaultDisplay().getWidth() - wordSize * 4) : bubbleView.width;
         windowManager.updateViewLayout(bubbleView, bubbleParams);
         bubbleView.setInvisibleDelayed(3000);
+        startWalk();
     }
 
     public boolean isReady() {
-        return ready&&bubbleView!=null&&bubbleView.isShown();
+        return ready&&bubbleView!=null;
     }
 
 
+    Handler mHanlder=new Handler();
 
+    Runnable update_thread = new Runnable()
+    {
+        public void run()
+        {
+            params.x+=flagx;
+            params.y+=flagy;
+            if(params.x>=windowManager.getDefaultDisplay().getWidth())
+                flagx=-flag;
+            if(params.x<=0)
+                flagx=flag;
+
+            if(params.y>=windowManager.getDefaultDisplay().getHeight())
+                flagy=-flag;
+            if(params.y<=0)
+                flagy=flag;
+
+            try{
+            windowManager.updateViewLayout(floatViewGroup,params);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            //Unhandled Exception
+
+
+
+
+            bubbleParams.x = params.x + params.width;
+            bubbleParams.y = params.y - params.height;
+            if(params.x>getScreenWidth()/2){
+                leftLayout.setVisibility(View.VISIBLE);
+                rightLayout.setVisibility(View.GONE);
+            }else{
+                leftLayout.setVisibility(View.GONE);
+                rightLayout.setVisibility(View.VISIBLE);
+            }
+            try{
+                windowManager.updateViewLayout(bubbleView, bubbleParams);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+            //Unhandled Exception
+            mHanlder.postDelayed(update_thread, 16);
+
+        }
+    };
+    int flag=1;
+    int flagx=flag;
+    int flagy=flag;
+    public void startWalk() {
+        mHanlder.post(update_thread);
+        Log.d(TAG, "startWalk: ");
+        floatViewGroup.startWalkAnimation();
+    }
+
+    public void stopWalk(){
+        mHanlder.removeCallbacks(update_thread);
+        floatViewGroup.stopWalkAnimation();
+    }
+
+
+    public void setPetName(String petName){
+        this.petName=petName;
+        SharedPreferences.Editor editor=context.getSharedPreferences("petName",MODE_PRIVATE).edit();
+        editor.putString("petName",petName);
+    }
+
+    public String getPetName(){
+        return petName;
+    }
 
 }

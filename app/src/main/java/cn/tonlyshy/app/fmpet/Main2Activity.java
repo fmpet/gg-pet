@@ -2,6 +2,7 @@ package cn.tonlyshy.app.fmpet;
 
 import android.content.ComponentName;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
@@ -19,9 +20,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import cn.tonlyshy.app.fmpet.core.FloatViewManager;
 import cn.tonlyshy.app.fmpet.fragment.AboutUsFragment;
 import cn.tonlyshy.app.fmpet.fragment.ClockFragment;
 import cn.tonlyshy.app.fmpet.fragment.MainFragment;
+import cn.tonlyshy.app.fmpet.fragment.ModelChangeFragment;
 import cn.tonlyshy.app.fmpet.utility.PermissionCheckerer;
 
 public class Main2Activity extends AppCompatActivity
@@ -63,6 +66,15 @@ public class Main2Activity extends AppCompatActivity
         permissionCheck();
         FragmentManager fragmentManager=getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
+
+        SharedPreferences preferences=getSharedPreferences("petName",MODE_PRIVATE);
+        if(preferences!=null){
+            String petName=preferences.getString("petName","liaowm5%$%^^%$#");
+            if(petName!=null&&!petName.equals("liaowm5%$%^^%$#")){
+                FloatViewManager floatViewManager=FloatViewManager.getInstance(this);
+                floatViewManager.setPetName(petName);
+            }
+        }
     }
 
     @Override
@@ -112,7 +124,9 @@ public class Main2Activity extends AppCompatActivity
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         } else if (id == R.id.nav_model_select) {
-
+            fragment=new ModelChangeFragment();
+            FragmentManager fragmentManager=getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         } else if (id == R.id.nav_clock) {
             //fragment=new ClockFragment();
             DialogFragment fragment1 = new ClockFragment();

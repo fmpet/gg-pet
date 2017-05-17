@@ -8,6 +8,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,7 +43,63 @@ public class AboutUsFragment extends Fragment {
         }
         versionName = pi.versionName;
         textView.setText("Version: " + versionName);
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                TranslateAnimation translateAnimation = new TranslateAnimation(0, 0, 0, 1000);
+                translateAnimation.setDuration(10000);
+                translateAnimation.setStartOffset(0);
+                translateAnimation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        int left = v.getLeft()+(int)(1000);
+                        int top = v.getTop();
+                        int width = v.getWidth();
+                        int height = v.getHeight();
+                        v.clearAnimation();
+                        v .layout(left, top, left+width, top+height);
+                    }
+                });
+                v.startAnimation(translateAnimation);
+            }
+        });
         Glide.with(getActivity()).load(R.drawable.afraid2).into(imageView1);
+        imageView1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(final View v) {
+                TranslateAnimation translateAnimation = new TranslateAnimation(0, 1000, 0, 0);
+                translateAnimation.setDuration(10000);
+                translateAnimation.setStartOffset(0);
+                translateAnimation.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        int left = v.getLeft()+(int)(1000);
+                        int top = v.getTop();
+                        int width = v.getWidth();
+                        int height = v.getHeight();
+                        v.clearAnimation();
+                        v .layout(left, top, left+width, top+height);
+                    }
+                });
+                v.startAnimation(translateAnimation);
+            }
+        });
         return view;
     }
 }

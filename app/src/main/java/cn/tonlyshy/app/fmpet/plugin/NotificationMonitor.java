@@ -97,6 +97,7 @@ public class NotificationMonitor extends NotificationListenerService {
                             while (! manager.isReady()) {
 
                             }
+                            Log.d(TAG, "run: manager.setBubbleViewText(\"您有新的提醒：\" + tmp, bitmap);");
                             manager.setBubbleViewText("您有新的提醒：" + tmp, bitmap);
                         } catch (Exception e) {
                             e.printStackTrace();
