@@ -62,6 +62,8 @@ public class Main2Activity extends AppCompatActivity
                 permissionCheck();
             }
         }).start();
+
+        //test
         toggleNotificationListenerService();//Prevent start avtivity the second time NotificationMonitor can not get notifications
         permissionCheck();
         FragmentManager fragmentManager=getSupportFragmentManager();
