@@ -1,5 +1,6 @@
 package cn.tonlyshy.app.fmpet.core;
 
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -186,6 +187,30 @@ public class FloatViewManager {
                 (int) (windowManager.getDefaultDisplay().getWidth() - wordSize * 4) : bubbleView.width;
         windowManager.updateViewLayout(bubbleView, bubbleParams);
         bubbleView.setInvisibleDelayed(3000);
+        startWalk();
+    }
+    public void setBubbleViewText(String text, Object icon,final PendingIntent pendingIntent) {
+        bubbleView.setVisible();
+        Bitmap bitmap=(Bitmap)icon;
+        bubbleView.setBubbleViewText(text, windowManager, bubbleParams,bitmap);
+        float scale = context.getResources().getDisplayMetrics().density;
+        float wordSize = scale * 14 + 0.5f;
+        bubbleView.width = (int) wordSize * (text.length() + 2);
+        bubbleParams.width = bubbleView.width > (windowManager.getDefaultDisplay().getWidth() - wordSize * 4) ?
+                (int) (windowManager.getDefaultDisplay().getWidth() - wordSize * 4) : bubbleView.width;
+        windowManager.updateViewLayout(bubbleView, bubbleParams);
+        bubbleView.setInvisibleDelayed(3000);
+        bubbleView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    pendingIntent.send();
+                }
+                catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
         startWalk();
     }
 

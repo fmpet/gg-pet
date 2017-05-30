@@ -37,7 +37,7 @@ public class NotificationMonitor extends NotificationListenerService {
             Log.d(TAG, "onNotificationPosted: " + extras.getString(Notification.EXTRA_TITLE) + extras.get(Notification.EXTRA_TEXT));
             try {
                 manager = FloatViewManager.getInstance(this);
-                manager.setBubbleViewText(extras.getString(Notification.EXTRA_TITLE) + " : " + extras.get(Notification.EXTRA_TEXT), extras.get(Notification.EXTRA_LARGE_ICON));
+                manager.setBubbleViewText(extras.getString(Notification.EXTRA_TITLE) + " : " + extras.get(Notification.EXTRA_TEXT), extras.get(Notification.EXTRA_LARGE_ICON),sbn.getNotification().contentIntent);
             } catch (Exception e) {
                 e.printStackTrace();
             }
