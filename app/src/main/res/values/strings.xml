@@ -173,4 +173,8 @@
 
     <string name="group_name">安卓基 Android G*y</string>
     <string name="group_address">Designed by GG 工作室, Guangzhou China</string>
+
+    <string name="title_activity_fullscreen_guide">FullscreenGuideActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 </resources>

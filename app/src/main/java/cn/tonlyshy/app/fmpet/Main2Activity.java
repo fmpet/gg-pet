@@ -55,17 +55,10 @@ public class Main2Activity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        //权限申请
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                permissionCheck();
-            }
-        }).start();
 
         //
         toggleNotificationListenerService();//Prevent start avtivity the second time NotificationMonitor can not get notifications
-        permissionCheck();
+        //permissionCheck();
         FragmentManager fragmentManager=getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.content_frame, new MainFragment()).commit();
 
@@ -77,6 +70,9 @@ public class Main2Activity extends AppCompatActivity
                 floatViewManager.setPetName(petName);
             }
         }
+
+        Intent intent = new Intent(this,GuideActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -170,6 +166,7 @@ public class Main2Activity extends AppCompatActivity
             }
         }
     }
+    /*
     private boolean permissionCheck(){
         if (PermissionCheckerer.checkFloatWindowPermission(this)!=true||PermissionCheckerer.checkNotificationListenerPermission(this)!= true){
             if(PermissionCheckerer.checkFloatWindowPermission(this)!=true){
@@ -181,6 +178,7 @@ public class Main2Activity extends AppCompatActivity
         }
         return true;
     }
+    */
 
     public void toggleNotificationListenerService(){
         PackageManager pm=getPackageManager();

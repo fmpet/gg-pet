@@ -17,11 +17,6 @@
             android:name=".Main2Activity"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.NoActionBar">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <service
@@ -48,15 +43,21 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-
-        <receiver android:name=".MyFloatService$NotificationReceiver"
+        <receiver
+            android:name=".MyFloatService$NotificationReceiver"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
-                <action android:name="cn.tonlyshy.app.fmpet.core.FloatViewManager.NotificationReceiver.NOTIFICATION"/>
+                <action android:name="cn.tonlyshy.app.fmpet.core.FloatViewManager.NotificationReceiver.NOTIFICATION" />
             </intent-filter>
         </receiver>
 
+        <activity android:name=".GuideActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
