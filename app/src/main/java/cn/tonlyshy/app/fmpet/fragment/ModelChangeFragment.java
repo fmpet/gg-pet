@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import cn.tonlyshy.app.fmpet.R;
@@ -18,27 +20,71 @@ import cn.tonlyshy.app.fmpet.core.FloatViewManager;
  */
 
 public class ModelChangeFragment extends Fragment {
+    Switch switchApperance1;
+    Switch switchApperance2;
+    Switch switchApperance3;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.model_change_fragment,container,false);
-        final EditText editText=(EditText)view.findViewById(R.id.new_name_edt);
-        Button btnCancel=(Button) view.findViewById(R.id.btn_cancel_new_name);
-        Button btnConfirm=(Button)view.findViewById(R.id.btn_confirm_new_name);
+        switchApperance1=(Switch)view.findViewById(R.id.switch_model_apperance1);
+        switchApperance2=(Switch)view.findViewById(R.id.switch_model_apperance2);
+        switchApperance3=(Switch)view.findViewById(R.id.switch_model_apperance3);
 
-        btnCancel.setOnClickListener(new View.OnClickListener() {
+        FloatViewManager floatViewManager=FloatViewManager.getInstance(getContext());
+        int apperanceId=floatViewManager.getApperance();
+
+        switch (apperanceId){
+            case 0:
+                switchApperance1.setChecked(true);
+                switchApperance2.setChecked(false);
+                switchApperance3.setChecked(false);
+                break;
+            case 1:
+                switchApperance1.setChecked(false);
+                switchApperance2.setChecked(true);
+                switchApperance3.setChecked(false);
+                break;
+            case 2:
+                switchApperance1.setChecked(false);
+                switchApperance2.setChecked(false);
+                switchApperance3.setChecked(true);
+                break;
+        }
+
+        switchApperance1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(),"取消",Toast.LENGTH_SHORT).show();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    FloatViewManager floatViewManager=FloatViewManager.getInstance(getContext());
+                    floatViewManager.setPetApperance(0);
+                    switchApperance2.setChecked(false);
+                    switchApperance3.setChecked(false);
+                }
             }
         });
 
-        btnConfirm.setOnClickListener(new View.OnClickListener() {
+        switchApperance2.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View v) {
-                FloatViewManager floatViewManager=FloatViewManager.getInstance(getActivity());
-                floatViewManager.setPetName(editText.getText().toString());
-                Toast.makeText(getActivity(),"新昵称："+editText.getText().toString(),Toast.LENGTH_SHORT).show();
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    FloatViewManager floatViewManager=FloatViewManager.getInstance(getContext());
+                    floatViewManager.setPetApperance(1);
+                    switchApperance1.setChecked(false);
+                    switchApperance3.setChecked(false);
+                }
+            }
+        });
+
+        switchApperance3.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    FloatViewManager floatViewManager=FloatViewManager.getInstance(getContext());
+                    floatViewManager.setPetApperance(2);
+                    switchApperance1.setChecked(false);
+                    switchApperance2.setChecked(false);
+                }
             }
         });
 

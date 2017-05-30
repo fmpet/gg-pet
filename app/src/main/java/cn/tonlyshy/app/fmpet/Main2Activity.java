@@ -25,7 +25,7 @@ import cn.tonlyshy.app.fmpet.fragment.AboutUsFragment;
 import cn.tonlyshy.app.fmpet.fragment.ClockFragment;
 import cn.tonlyshy.app.fmpet.fragment.MainFragment;
 import cn.tonlyshy.app.fmpet.fragment.ModelChangeFragment;
-import cn.tonlyshy.app.fmpet.utility.PermissionCheckerer;
+import cn.tonlyshy.app.fmpet.fragment.NameChangeFragment;
 
 public class Main2Activity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,6 +68,15 @@ public class Main2Activity extends AppCompatActivity
             if(petName!=null&&!petName.equals("liaowm5%$%^^%$#")){
                 FloatViewManager floatViewManager=FloatViewManager.getInstance(this);
                 floatViewManager.setPetName(petName);
+            }
+        }
+
+        SharedPreferences preferences1=getSharedPreferences("petApperanceId",MODE_PRIVATE);
+        if(preferences!=null){
+            int apperanceId=preferences1.getInt("petApperanceId",1);
+            if(apperanceId!=1){
+                FloatViewManager floatViewManager=FloatViewManager.getInstance(this);
+                floatViewManager.setPetApperance(apperanceId);
             }
         }
 
@@ -122,10 +131,14 @@ public class Main2Activity extends AppCompatActivity
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
         } else if (id == R.id.nav_model_select) {
-            fragment=new ModelChangeFragment();
+            fragment = new ModelChangeFragment();
             FragmentManager fragmentManager=getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
-        } else if (id == R.id.nav_clock) {
+        } else if(id == R.id.nav_name_setting){
+            fragment=new NameChangeFragment();
+            FragmentManager fragmentManager=getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, fragment).commit();
+        }else if (id == R.id.nav_clock) {
             //fragment=new ClockFragment();
             DialogFragment fragment1 = new ClockFragment();
             try {
@@ -134,9 +147,6 @@ public class Main2Activity extends AppCompatActivity
                 e.printStackTrace();
             }
 
-        } else if (id == R.id.nav_setting) {
-            Intent intent=new Intent(this,SettingsActivity.class);
-            startActivity(intent);
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_about) {

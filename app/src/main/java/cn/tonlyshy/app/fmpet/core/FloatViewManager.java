@@ -100,8 +100,6 @@ public class FloatViewManager {
     };
 
 
-    private int index=0;
-
     private FloatViewManager(final Context context){
         this.context=context;
         windowManager=(WindowManager)context.getSystemService(Context.WINDOW_SERVICE);
@@ -110,13 +108,8 @@ public class FloatViewManager {
         floatViewGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                index++;
-                if(index>=floatViewGroup.animationList.size()){
-                    index=0;
-                }
-                floatViewGroup.switchAnimation(index);
-                Log.d(TAG, "onClick: index="+index);
-                Toast.makeText(context,"FloatPet",Toast.LENGTH_SHORT).show();
+                floatViewGroup.switchAnimation();
+                //Toast.makeText(context,"FloatPet",Toast.LENGTH_SHORT).show();
             }
         });
         ready=false;
@@ -273,4 +266,13 @@ public class FloatViewManager {
         return petName;
     }
 
+    public void setPetApperance(int id){
+        floatViewGroup.setApperance(id);
+        SharedPreferences.Editor editor=context.getSharedPreferences("petApperanceId",MODE_PRIVATE).edit();
+        editor.putInt("petApperanceId",getApperance());
+    }
+
+    public int getApperance(){
+        return floatViewGroup.getApperanceId();
+    }
 }
