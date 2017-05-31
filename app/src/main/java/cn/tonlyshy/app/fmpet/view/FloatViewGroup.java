@@ -164,11 +164,8 @@ public class FloatViewGroup extends RelativeLayout {
         animationDrawable.start();
     }
     public void stopWalkAnimation() {
-        animationDrawable.stop();
-        setBackgroundResource(animationListList.get(apperanceId).get(animeIndex));
-        animationDrawable=(AnimationDrawable)getBackground();
         isWalking=false;
-        animationDrawable.start();
+        switchAnimation();
     }
 
     public void setApperance(int id){
